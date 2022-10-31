@@ -1,0 +1,124 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
+}
+
+datasource db {
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
+  referentialIntegrity = "prisma"
+}
+
+model CaseManager {
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+  modifiedAt DateTime @updatedAt
+  username   String
+  firstname  String
+  lastName   String
+  phone      String
+  email      String   @unique
+  cases      Case[]
+}
+
+model Patient {
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+  modifiedAt DateTime @updatedAt
+  email      String   @unique
+  firstName  String
+  lastName   String
+  phone      String
+  case       Case?
+}
+
+model Doctor {
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+  modifiedAt DateTime @updatedAt
+  email      String   @unique
+  firstName  String
+  lastName   String
+  phone      String
+  profession String?
+  Case       Case[]
+}
+
+model Case {
+  id            Int         @id @default(autoincrement())
+  createdAt     DateTime    @default(now())
+  modifiedAt    DateTime    @updatedAt
+  status        String
+  category      Category    @relation(fields: [categoryId], references: [id])
+  assignedTo    Doctor?     @relation(fields: [doctorId], references: [id])
+  severity      Severity    @relation(fields: [severityId], references: [id])
+  subject       String
+  patient       Patient     @relation(fields: [patientId], references: [id])
+  caseManager   CaseManager @relation(fields: [caseManagerId], references: [id])
+  notes         Note[]
+  solutions     Solution[]
+  milestones    Milestone[]
+  activities    Activity[]
+  caseManagerId Int
+  solutionId    Int
+  patientId     Int         @unique
+  categoryId    Int
+  severityId    Int
+  doctorId      Int?
+}
+
+model Note {
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+  modifiedAt DateTime @updatedAt
+  comment    String   @db.Text
+  Case       Case     @relation(fields: [caseId], references: [id])
+  caseId     Int
+}
+
+model Solution {
+  id            Int      @id @default(autoincrement())
+  createdAt     DateTime @default(now())
+  modifiedAt    DateTime @updatedAt
+  subject       String
+  investigation String   @db.Text
+  resolution    String   @db.Text
+  Case          Case     @relation(fields: [caseId], references: [id])
+  caseId        Int
+}
+
+model Milestone {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  modifiedAt  DateTime @updatedAt
+  description String   @db.Text
+  Case        Case     @relation(fields: [caseId], references: [id])
+  caseId      Int
+}
+
+model Activity {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  modifiedAt  DateTime @updatedAt
+  description String   @db.Text
+  Case        Case     @relation(fields: [caseId], references: [id])
+  caseId      Int
+}
+
+model Category {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  title       String   @unique
+  description String   @db.Text
+  Case        Case[]
+}
+
+model Severity {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  level     String   @unique
+  Case      Case[]
+}
