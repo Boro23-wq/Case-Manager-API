@@ -9,8 +9,10 @@ import {
   NotFoundException,
   Query,
   ParseIntPipe,
+  UseFilters,
 } from '@nestjs/common';
 import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
+import { PrismaClientExceptionFilter } from 'src/primsa-client-exception/prisma-client-exception.filter';
 import { CasemanagersService } from './casemanagers.service';
 import { CreateCasemanagerDto } from './dto/create-casemanager.dto';
 import { UpdateCasemanagerDto } from './dto/update-casemanager.dto';
@@ -18,6 +20,7 @@ import { CasemanagerEntity } from './entities/casemanager.entity';
 
 @Controller('casemanagers')
 @ApiTags('casemanagers')
+@UseFilters(PrismaClientExceptionFilter)
 export class CasemanagersController {
   constructor(private readonly casemanagersService: CasemanagersService) {}
 
