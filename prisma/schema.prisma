@@ -32,7 +32,7 @@ model Patient {
   firstName  String
   lastName   String
   phone      String
-  case       Case?
+  case       Case[]
 }
 
 model Doctor {
