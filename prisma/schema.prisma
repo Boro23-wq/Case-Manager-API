@@ -16,8 +16,8 @@ model CaseManager {
   id         Int      @id @default(autoincrement())
   createdAt  DateTime @default(now())
   modifiedAt DateTime @updatedAt
-  username   String
-  firstname  String
+  userName   String
+  firstName  String
   lastName   String
   phone      String
   email      String   @unique
@@ -44,7 +44,7 @@ model Doctor {
   lastName   String
   phone      String
   profession String?
-  Case       Case[]
+  case       Case[]
 }
 
 model Case {
@@ -86,7 +86,7 @@ model Solution {
   subject       String
   investigation String   @db.Text
   resolution    String   @db.Text
-  Case          Case     @relation(fields: [caseId], references: [id])
+  case          Case     @relation(fields: [caseId], references: [id])
   caseId        Int
 }
 
@@ -95,7 +95,7 @@ model Milestone {
   createdAt   DateTime @default(now())
   modifiedAt  DateTime @updatedAt
   description String   @db.Text
-  Case        Case     @relation(fields: [caseId], references: [id])
+  case        Case     @relation(fields: [caseId], references: [id])
   caseId      Int
 }
 
@@ -104,7 +104,7 @@ model Activity {
   createdAt   DateTime @default(now())
   modifiedAt  DateTime @updatedAt
   description String   @db.Text
-  Case        Case     @relation(fields: [caseId], references: [id])
+  case        Case     @relation(fields: [caseId], references: [id])
   caseId      Int
 }
 
@@ -113,12 +113,12 @@ model Category {
   createdAt   DateTime @default(now())
   title       String   @unique
   description String   @db.Text
-  Case        Case[]
+  case        Case[]
 }
 
 model Severity {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   level     String   @unique
-  Case      Case[]
+  case      Case[]
 }

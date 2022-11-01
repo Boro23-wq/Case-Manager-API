@@ -1,26 +1,41 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateCasemanagerDto } from './dto/create-casemanager.dto';
 import { UpdateCasemanagerDto } from './dto/update-casemanager.dto';
 
 @Injectable()
 export class CasemanagersService {
+  constructor(private prisma: PrismaService) {}
+
   create(createCasemanagerDto: CreateCasemanagerDto) {
-    return 'This action adds a new casemanager';
+    return this.prisma.caseManager.create({ data: createCasemanagerDto });
   }
 
-  findAll() {
-    return `This action returns all casemanagers`;
+  async findAll(params: { skip?: number; take?: number }) {
+    const { skip, take } = params;
+
+    if (isNaN(skip)) return this.prisma.caseManager.findMany({ take });
+
+    return this.prisma.caseManager.findMany({
+      skip,
+      take,
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} casemanager`;
+  async findOne(id: number) {
+    return await this.prisma.caseManager.findUnique({ where: { id } });
   }
 
   update(id: number, updateCasemanagerDto: UpdateCasemanagerDto) {
-    return `This action updates a #${id} casemanager`;
+    return this.prisma.caseManager.update({
+      where: { id },
+      data: updateCasemanagerDto,
+    });
   }
 
   remove(id: number) {
-    return `This action removes a #${id} casemanager`;
+    return this.prisma.caseManager.delete({
+      where: { id },
+    });
   }
 }
