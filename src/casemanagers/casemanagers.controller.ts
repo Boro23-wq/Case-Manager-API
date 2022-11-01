@@ -8,6 +8,7 @@ import {
   Delete,
   NotFoundException,
   Query,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { CasemanagersService } from './casemanagers.service';
@@ -37,11 +38,11 @@ export class CasemanagersController {
 
   @Get(':id')
   @ApiCreatedResponse({ type: CasemanagerEntity })
-  async findOne(@Param('id') id: string) {
-    const caseManager = await this.casemanagersService.findOne(+id);
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    const caseManager = await this.casemanagersService.findOne(id);
 
     if (!caseManager) {
-      throw new NotFoundException(`Case manager with id: ${id} not found.`);
+      throw new NotFoundException(`Case manager with ID: ${id} not found.`);
     }
 
     return caseManager;
@@ -50,15 +51,15 @@ export class CasemanagersController {
   @Patch(':id')
   @ApiCreatedResponse({ type: CasemanagerEntity })
   update(
-    @Param('id') id: string,
+    @Param('id', ParseIntPipe) id: number,
     @Body() updateCasemanagerDto: UpdateCasemanagerDto,
   ) {
-    return this.casemanagersService.update(+id, updateCasemanagerDto);
+    return this.casemanagersService.update(id, updateCasemanagerDto);
   }
 
   @Delete(':id')
   @ApiCreatedResponse({ type: CasemanagerEntity })
-  remove(@Param('id') id: string) {
-    return this.casemanagersService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.casemanagersService.remove(id);
   }
 }
