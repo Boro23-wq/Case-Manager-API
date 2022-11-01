@@ -1,33 +1,63 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  NotFoundException,
+  Query,
+} from '@nestjs/common';
+import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { CasemanagersService } from './casemanagers.service';
 import { CreateCasemanagerDto } from './dto/create-casemanager.dto';
 import { UpdateCasemanagerDto } from './dto/update-casemanager.dto';
+import { CasemanagerEntity } from './entities/casemanager.entity';
 
 @Controller('casemanagers')
+@ApiTags('casemanagers')
 export class CasemanagersController {
   constructor(private readonly casemanagersService: CasemanagersService) {}
 
   @Post()
+  @ApiCreatedResponse({ type: CasemanagerEntity })
   create(@Body() createCasemanagerDto: CreateCasemanagerDto) {
     return this.casemanagersService.create(createCasemanagerDto);
   }
 
   @Get()
-  findAll() {
-    return this.casemanagersService.findAll();
+  @ApiCreatedResponse({ type: CasemanagerEntity, isArray: true })
+  async findAll(@Query('skip') skip: string, @Query('take') take: string) {
+    return this.casemanagersService.findAll({
+      skip: Number(skip),
+      take: Number(take),
+    });
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.casemanagersService.findOne(+id);
+  @ApiCreatedResponse({ type: CasemanagerEntity })
+  async findOne(@Param('id') id: string) {
+    const caseManager = await this.casemanagersService.findOne(+id);
+
+    if (!caseManager) {
+      throw new NotFoundException(`Case manager with id: ${id} not found.`);
+    }
+
+    return caseManager;
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCasemanagerDto: UpdateCasemanagerDto) {
+  @ApiCreatedResponse({ type: CasemanagerEntity })
+  update(
+    @Param('id') id: string,
+    @Body() updateCasemanagerDto: UpdateCasemanagerDto,
+  ) {
     return this.casemanagersService.update(+id, updateCasemanagerDto);
   }
 
   @Delete(':id')
+  @ApiCreatedResponse({ type: CasemanagerEntity })
   remove(@Param('id') id: string) {
     return this.casemanagersService.remove(+id);
   }
