@@ -6,6 +6,7 @@ import { seedCaseManager } from '../lib/case-manager';
 const prisma = new PrismaClient();
 
 async function main() {
+  // Categories seed data
   const categoriesTxs = [];
   for (const category of seedCategories) {
     categoriesTxs.push(
@@ -21,6 +22,8 @@ async function main() {
   }
   const categories = await prisma.$transaction(categoriesTxs);
   console.log(`Created ${categories.length} categories.`);
+
+  // Severities seed data
   const severityTxs = [];
   for (const severity of seedSeverityLevels) {
     severityTxs.push(
@@ -36,6 +39,7 @@ async function main() {
   const severities = await prisma.$transaction(severityTxs);
   console.log(`Created ${severities.length} severities.`);
 
+  // Case Managers seed data
   const caseManagerTxs = [];
   for (const caseManager of seedCaseManager) {
     caseManagerTxs.push(
@@ -52,7 +56,6 @@ async function main() {
       }),
     );
   }
-
   const casemanager = await prisma.$transaction(caseManagerTxs);
   console.log(`Created ${casemanager.length} case manager.`);
 }
