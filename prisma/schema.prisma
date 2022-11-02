@@ -13,112 +13,111 @@ datasource db {
 }
 
 model CaseManager {
-  id         Int      @id @default(autoincrement())
-  createdAt  DateTime @default(now())
-  modifiedAt DateTime @updatedAt
+  id         Int           @id @default(autoincrement())
+  createdAt  DateTime      @default(now())
+  modifiedAt DateTime      @updatedAt
   userName   String
   firstName  String
   lastName   String
   phone      String
-  email      String   @unique
-  cases      Case[]
+  email      String        @unique
+  cases      PatientCase[]
 }
 
 model Patient {
-  id         Int      @id @default(autoincrement())
-  createdAt  DateTime @default(now())
-  modifiedAt DateTime @updatedAt
-  email      String   @unique
+  id         Int           @id @default(autoincrement())
+  createdAt  DateTime      @default(now())
+  modifiedAt DateTime      @updatedAt
+  email      String        @unique
   firstName  String
   lastName   String
   phone      String
-  case       Case[]
+  cases      PatientCase[]
 }
 
 model Doctor {
-  id         Int      @id @default(autoincrement())
-  createdAt  DateTime @default(now())
-  modifiedAt DateTime @updatedAt
-  email      String   @unique
+  id         Int           @id @default(autoincrement())
+  createdAt  DateTime      @default(now())
+  modifiedAt DateTime      @updatedAt
+  email      String        @unique
   firstName  String
   lastName   String
   phone      String
   profession String?
-  case       Case[]
+  cases      PatientCase[]
 }
 
-model Case {
-  id            Int         @id @default(autoincrement())
-  createdAt     DateTime    @default(now())
-  modifiedAt    DateTime    @updatedAt
-  status        String
-  category      Category    @relation(fields: [categoryId], references: [id])
-  assignedTo    Doctor?     @relation(fields: [doctorId], references: [id])
-  severity      Severity    @relation(fields: [severityId], references: [id])
-  subject       String
-  patient       Patient     @relation(fields: [patientId], references: [id])
-  caseManager   CaseManager @relation(fields: [caseManagerId], references: [id])
-  notes         Note[]
-  solutions     Solution[]
-  milestones    Milestone[]
-  activities    Activity[]
-  caseManagerId Int
-  solutionId    Int
-  patientId     Int         @unique
-  categoryId    Int
-  severityId    Int
-  doctorId      Int?
+model PatientCase {
+  id               Int          @id @default(autoincrement())
+  createdAt        DateTime     @default(now())
+  modifiedAt       DateTime     @updatedAt
+  status           String
+  subject          String
+  caseManager      CaseManager? @relation(fields: [caseManagerEmail], references: [email])
+  caseManagerEmail String?
+  patient          Patient?     @relation(fields: [patientEmail], references: [email])
+  patientEmail     String?
+  doctor           Doctor?      @relation(fields: [doctorEmail], references: [email])
+  doctorEmail      String?
+  category         Category?    @relation(fields: [categoryTitle], references: [title])
+  categoryTitle    String?
+  severity         Severity?    @relation(fields: [severityLevel], references: [level])
+  severityLevel    String?
+  notes            Note[]
+  solutions        Solution[]
+  milestones       Milestone[]
+  activities       Activity[]
 }
 
 model Note {
-  id         Int      @id @default(autoincrement())
-  createdAt  DateTime @default(now())
-  modifiedAt DateTime @updatedAt
-  comment    String   @db.Text
-  case       Case     @relation(fields: [caseId], references: [id])
+  id         Int         @id @default(autoincrement())
+  createdAt  DateTime    @default(now())
+  modifiedAt DateTime    @updatedAt
+  comment    String      @db.Text
+  case       PatientCase @relation(fields: [caseId], references: [id])
   caseId     Int
 }
 
 model Solution {
-  id            Int      @id @default(autoincrement())
-  createdAt     DateTime @default(now())
-  modifiedAt    DateTime @updatedAt
+  id            Int          @id @default(autoincrement())
+  createdAt     DateTime     @default(now())
+  modifiedAt    DateTime     @updatedAt
   subject       String
-  investigation String   @db.Text
-  resolution    String   @db.Text
-  case          Case     @relation(fields: [caseId], references: [id])
+  investigation String       @db.Text
+  resolution    String       @db.Text
+  case          PatientCase? @relation(fields: [caseId], references: [id])
   caseId        Int
 }
 
 model Milestone {
-  id          Int      @id @default(autoincrement())
-  createdAt   DateTime @default(now())
-  modifiedAt  DateTime @updatedAt
-  description String   @db.Text
-  case        Case     @relation(fields: [caseId], references: [id])
+  id          Int         @id @default(autoincrement())
+  createdAt   DateTime    @default(now())
+  modifiedAt  DateTime    @updatedAt
+  description String      @db.Text
+  case        PatientCase @relation(fields: [caseId], references: [id])
   caseId      Int
 }
 
 model Activity {
-  id          Int      @id @default(autoincrement())
-  createdAt   DateTime @default(now())
-  modifiedAt  DateTime @updatedAt
-  description String   @db.Text
-  case        Case     @relation(fields: [caseId], references: [id])
+  id          Int         @id @default(autoincrement())
+  createdAt   DateTime    @default(now())
+  modifiedAt  DateTime    @updatedAt
+  description String      @db.Text
+  case        PatientCase @relation(fields: [caseId], references: [id])
   caseId      Int
 }
 
 model Category {
-  id          Int      @id @default(autoincrement())
-  createdAt   DateTime @default(now())
-  title       String   @unique
-  description String   @db.Text
-  case        Case[]
+  id          Int           @id @default(autoincrement())
+  createdAt   DateTime      @default(now())
+  title       String        @unique
+  description String        @db.Text
+  cases       PatientCase[]
 }
 
 model Severity {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  level     String   @unique
-  case      Case[]
+  id        Int           @id @default(autoincrement())
+  createdAt DateTime      @default(now())
+  level     String        @unique
+  cases     PatientCase[]
 }
