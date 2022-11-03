@@ -3,6 +3,7 @@ import { seedSeverityLevels } from '../lib/severity-levels';
 import { seedCategories } from '../lib/categories';
 import { seedCaseManagers } from '../lib/case-managers';
 import { seedPatients } from '../lib/patients';
+import { seedDoctors } from '../lib/doctors';
 
 const prisma = new PrismaClient();
 
@@ -56,24 +57,43 @@ async function main() {
   // const severities = await prisma.$transaction(severityTxs);
   // console.log(`Created ${severities.length} severities.`);
   // // Case Managers seed data
-  const caseManagerTxs = [];
-  for (const caseManager of seedCaseManagers) {
-    caseManagerTxs.push(
-      prisma.caseManager.upsert({
-        where: { email: caseManager.email },
+  // const caseManagersTxs = [];
+  // for (const caseManager of seedCaseManagers) {
+  //   caseManagerTxs.push(
+  //     prisma.caseManager.upsert({
+  //       where: { email: caseManager.email },
+  //       update: {},
+  //       create: {
+  //         userName: caseManager.userName,
+  //         firstName: caseManager.firstName,
+  //         lastName: caseManager.lastName,
+  //         phone: caseManager.phone,
+  //         email: caseManager.email,
+  //       },
+  //     }),
+  //   );
+  // }
+  // const casemanagers = await prisma.$transaction(caseManagersTxs);
+  // console.log(`Created ${casemanagers.length} case managers.`);
+
+  const doctorsTxs = [];
+  for (const doctor of seedDoctors) {
+    doctorsTxs.push(
+      prisma.doctor.upsert({
+        where: { email: doctor.email },
         update: {},
         create: {
-          userName: caseManager.userName,
-          firstName: caseManager.firstName,
-          lastName: caseManager.lastName,
-          phone: caseManager.phone,
-          email: caseManager.email,
+          firstName: doctor.firstName,
+          lastName: doctor.lastName,
+          phone: doctor.phone,
+          email: doctor.email,
+          profession: doctor.profession,
         },
       }),
     );
   }
-  const casemanager = await prisma.$transaction(caseManagerTxs);
-  console.log(`Created ${casemanager.length} case manager.`);
+  const doctors = await prisma.$transaction(doctorsTxs);
+  console.log(`Created ${doctors.length} doctors.`);
 }
 
 main()

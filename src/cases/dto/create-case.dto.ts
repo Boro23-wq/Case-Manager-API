@@ -3,6 +3,7 @@ import {
   IsEmail,
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsString,
   MaxLength,
 } from 'class-validator';
@@ -44,7 +45,7 @@ export class CreateCaseDto {
   @ApiProperty()
   severityLevel: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsEmail()
   @ApiProperty({ required: false })
   doctorEmail?: string;
