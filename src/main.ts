@@ -13,6 +13,7 @@ async function bootstrap() {
     .setDescription(
       'The API retrieves information about case managers and their cases.',
     )
+    .setExternalDoc('Postman Collection', '/api-json')
     .setVersion('1.0.0')
     .build();
 
