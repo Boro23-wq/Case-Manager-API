@@ -10,11 +10,9 @@ import {
   Query,
   ParseIntPipe,
   UseFilters,
-  UseInterceptors,
   UploadedFile,
   DefaultValuePipe,
 } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { PrismaClientExceptionFilter } from 'src/primsa-client-exception/prisma-client-exception.filter';
 import { CasemanagersService } from './casemanagers.service';
@@ -23,6 +21,8 @@ import { UpdateCasemanagerDto } from './dto/update-casemanager.dto';
 import { CasemanagerEntity } from './entities/casemanager.entity';
 import { Express } from 'express';
 import { S3Service } from 'src/s3/S3.service';
+import { S3ImageFile } from 'src/s3/S3-file.decorator';
+import { S3ParseFile } from 'src/s3/S3-parsefile.pipe';
 
 @Controller('casemanagers')
 @ApiTags('casemanagers')
@@ -40,10 +40,10 @@ export class CasemanagersController {
   }
 
   @Post(':id/upload')
-  @UseInterceptors(FileInterceptor('file'))
+  @S3ImageFile('profile', true)
   @ApiCreatedResponse({ type: CasemanagerEntity })
   async uploadFile(
-    @UploadedFile() file: Express.Multer.File,
+    @UploadedFile(S3ParseFile) file: Express.Multer.File,
     @Param('id', ParseIntPipe) id: number,
   ) {
     const uploadedFile = await this.s3Service.uploadFile(file);
