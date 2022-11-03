@@ -10,6 +10,7 @@ import {
   Query,
   ParseIntPipe,
   UseFilters,
+  DefaultValuePipe,
 } from '@nestjs/common';
 import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { PrismaClientExceptionFilter } from 'src/primsa-client-exception/prisma-client-exception.filter';
@@ -32,7 +33,10 @@ export class NotesController {
 
   @Get()
   @ApiCreatedResponse({ type: NoteEntity, isArray: true })
-  async findAll(@Query('skip') skip: string, @Query('take') take: string) {
+  async findAll(
+    @Query('skip', new DefaultValuePipe(0)) skip: string,
+    @Query('take', new DefaultValuePipe(10)) take: string,
+  ) {
     return this.notesService.findAll({
       skip: Number(skip),
       take: Number(take),
