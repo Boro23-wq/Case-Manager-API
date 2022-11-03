@@ -26,11 +26,6 @@ export class CreateCaseDto {
   caseManagerEmail: string;
 
   @IsNotEmpty()
-  @IsNumber()
-  @ApiProperty()
-  solutionId: number;
-
-  @IsNotEmpty()
   @IsEmail()
   @ApiProperty()
   patientEmail: string;

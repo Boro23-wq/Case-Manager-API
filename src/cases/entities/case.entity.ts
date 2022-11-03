@@ -24,9 +24,6 @@ export class CaseEntity implements PatientCase {
   categoryTitle: string;
 
   @ApiProperty()
-  solutionId: number;
-
-  @ApiProperty()
   patientEmail: string;
 
   @ApiProperty()
