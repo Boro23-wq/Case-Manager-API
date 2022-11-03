@@ -24,11 +24,11 @@ import { NotesService } from './notes.service';
 export class NotesController {
   constructor(private readonly notesService: NotesService) {}
 
-  @Post()
-  @ApiCreatedResponse({ type: NoteEntity })
-  create(@Body() createNoteDto: CreateNoteDto) {
-    return this.notesService.create(createNoteDto);
-  }
+  // @Post()
+  // @ApiCreatedResponse({ type: NoteEntity })
+  // create(@Body() createNoteDto: CreateNoteDto) {
+  //   return this.notesService.create(createNoteDto);
+  // }
 
   @Get()
   @ApiCreatedResponse({ type: NoteEntity, isArray: true })

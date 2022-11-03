@@ -7,9 +7,9 @@ import { UpdateNoteDto } from './dto/update-note.dto';
 export class NotesService {
   constructor(private prisma: PrismaService) {}
 
-  create(createNoteDto: CreateNoteDto) {
-    return this.prisma.note.create({ data: createNoteDto });
-  }
+  // create(createNoteDto: CreateNoteDto) {
+  //   return this.prisma.note.create({ data: createNoteDto });
+  // }
 
   async findAll(params: { skip?: number; take?: number }) {
     const { skip, take } = params;

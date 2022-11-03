@@ -13,9 +13,7 @@ import {
 } from '@nestjs/common';
 import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { CreateNoteDto } from 'src/notes/dto/create-note.dto';
-import { UpdateNoteDto } from 'src/notes/dto/update-note.dto';
 import { NoteEntity } from 'src/notes/entities/note.entity';
-import { NotesService } from 'src/notes/notes.service';
 import { PrismaClientExceptionFilter } from 'src/primsa-client-exception/prisma-client-exception.filter';
 import { CasesService } from './cases.service';
 import { CreateCaseDto } from './dto/create-case.dto';

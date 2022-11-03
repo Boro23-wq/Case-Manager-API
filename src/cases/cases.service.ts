@@ -3,7 +3,6 @@
 
 import { Injectable } from '@nestjs/common';
 import { CreateNoteDto } from 'src/notes/dto/create-note.dto';
-import { UpdateNoteDto } from 'src/notes/dto/update-note.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateCaseDto } from './dto/create-case.dto';
 import { UpdateCaseDto } from './dto/update-case.dto';

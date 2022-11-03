@@ -16,7 +16,6 @@ model CaseManager {
   id         Int           @id @default(autoincrement())
   createdAt  DateTime      @default(now())
   modifiedAt DateTime      @updatedAt
-  userName   String
   firstName  String
   lastName   String
   phone      String
