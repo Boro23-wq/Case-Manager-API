@@ -8,4 +8,4 @@ import { DoctorsService } from './doctors.service';
   providers: [DoctorsService],
   imports: [PrismaModule],
 })
-export class DoctorModule {}
+export class DoctorsModule {}
