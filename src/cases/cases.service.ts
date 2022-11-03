@@ -2,6 +2,7 @@
 // "@nestjs/schematics": "^9.0.3",
 
 import { Injectable } from '@nestjs/common';
+import { CreateNoteDto } from 'src/notes/dto/create-note.dto';
 import { UpdateNoteDto } from 'src/notes/dto/update-note.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateCaseDto } from './dto/create-case.dto';
@@ -10,6 +11,15 @@ import { UpdateCaseDto } from './dto/update-case.dto';
 @Injectable()
 export class CasesService {
   constructor(private prisma: PrismaService) {}
+
+  createNote(createNoteDto: CreateNoteDto, id: number) {
+    return this.prisma.note.create({
+      data: {
+        comment: createNoteDto.comment,
+        caseId: id,
+      },
+    });
+  }
 
   create(createCaseDto: CreateCaseDto) {
     return this.prisma.patientCase.create({ data: createCaseDto });
@@ -49,6 +59,17 @@ export class CasesService {
     return this.prisma.patientCase.update({
       where: { id },
       data: updateCaseDto,
+    });
+  }
+
+  removeNote(id: number, noteId: number) {
+    return this.prisma.note.delete({
+      where: {
+        uniqueNote: {
+          id: noteId,
+          caseId: id,
+        },
+      },
     });
   }
 

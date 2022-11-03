@@ -12,6 +12,7 @@ import {
   UseFilters,
 } from '@nestjs/common';
 import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
+import { CreateNoteDto } from 'src/notes/dto/create-note.dto';
 import { UpdateNoteDto } from 'src/notes/dto/update-note.dto';
 import { NoteEntity } from 'src/notes/entities/note.entity';
 import { NotesService } from 'src/notes/notes.service';
@@ -26,6 +27,15 @@ import { CaseEntity } from './entities/case.entity';
 @UseFilters(PrismaClientExceptionFilter)
 export class CasesController {
   constructor(private readonly casesService: CasesService) {}
+
+  @Post(':id/casenotes')
+  @ApiCreatedResponse({ type: NoteEntity })
+  createNote(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() createNoteDto: CreateNoteDto,
+  ) {
+    return this.casesService.createNote(createNoteDto, id);
+  }
 
   @Post()
   @ApiCreatedResponse({ type: CaseEntity })
@@ -90,6 +100,15 @@ export class CasesController {
     @Body() updateCaseDto: UpdateCaseDto,
   ) {
     return this.casesService.update(id, updateCaseDto);
+  }
+
+  @Delete(':id/casenotes/:noteId')
+  @ApiCreatedResponse({ type: NoteEntity })
+  removeNote(
+    @Param('id', ParseIntPipe) id: number,
+    @Param('noteId', ParseIntPipe) noteId: number,
+  ) {
+    return this.casesService.removeNote(id, noteId);
   }
 
   @Delete(':id')
