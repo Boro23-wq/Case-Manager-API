@@ -1,47 +1,61 @@
 ## Case Manager API
-This is the implementation of the API using Nest.js, Typescript, Prisma, and PlanetScale that performs operation on case managers, cases, and related case notes, which is a part of the project CS 673 - Care Management and Co-ordination.
 
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
+API built using **Nest.js**, **Typescript**, **Prisma** for ORM, and **PlanetScale** (MySQL) that performs operation on case managers, cases, and related case notes. This API is a part of the project CS 673 - Care Management and Co-ordination.
+
+
+<p  align="center">
+  <a  href="http://nestjs.com/"  target="blank"><img  	src="https://nestjs.com/img/logo_text.svg"  width="320"  alt="Nest Logo" /></a>
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Nest.js is a progressive <a  href="http://nodejs.org"  target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Active Record Pattern
+The Case Manager API is built using the Active Record Pattern.
 
-## Description
+Using the Active Record approach, one can define all their query methods inside the model itself, and  save, remove, and load objects using model methods.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Simply, the Active Record pattern is an approach to access database within the defined models. You can read more about the Active Record pattern on [Wikipedia](https://en.wikipedia.org/wiki/Active_record_pattern).
 
 ## Installation
 
+1. Clone the repository to your local machine.
 ```bash
+$ git clone https://github.com/Boro23-wq/case-manager-api.git
+```
+2. Change directory into the repository you just cloned.
+```bash
+$ cd case-manager-api
+```
+3. Open the repository in your favorite code editor. I'm using VSCode. The shortcut to open a directory in VSCode is:
+```bash
+$ code .
+```
+Please make sure you are inside the directory.
+
+4. Finally, run the command below based on your package manager:
+```bash
+# yarn 
+$ yarn
+OR
+# npm
 $ npm install
 ```
 
-## Running the app
+## Environment variables
 
+Please create a `.env` or `.env.local` file to set the [PlanetScale](https://planetscale.com/) database string. The string would look something like this:
+
+```bash
+DATABASE_URL='mysql:*********************************'
+```
+
+## Running the app
 ```bash
 # development
 $ npm run start
 
 # watch mode
+# Watch mode will basically watch for any changes to your code and restart the server accordingly which is very convenient.
 $ npm run start:dev
 
 # production mode
@@ -49,6 +63,8 @@ $ npm run start:prod
 ```
 
 ## Test
+I haven't implemented any tests yet, but once the tests are added you'd have more information on how to run it.
+  
 
 ```bash
 # unit tests
@@ -61,16 +77,16 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## Resources
+1. [Nest.js Documentation](https://docs.nestjs.com/)
+2. [Prisma Documentation](https://www.prisma.io/docs/)
+3. [PlanetScale Documentation](https://planetscale.com/docs)
 
 ## Stay in touch
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+- Author - [Sintu Boro](https://sboro.vercel.app/)
+- Blog - [https://sboro.vercel.app/blog](https://sboro.vercel.app/blog)
+- Linkedin - [Sintu Boro](https://www.linkedin.com/in/sintu-boro/)
 
 ## License
-
-Nest is [MIT licensed](LICENSE).
+This project is [MIT licensed](LICENSE).
