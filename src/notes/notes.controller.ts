@@ -31,17 +31,17 @@ export class NotesController {
   //   return this.notesService.create(createNoteDto);
   // }
 
-  @Get()
-  @ApiCreatedResponse({ type: NoteEntity, isArray: true })
-  async findAll(
-    @Query('skip', new DefaultValuePipe(0)) skip: string,
-    @Query('take', new DefaultValuePipe(10)) take: string,
-  ) {
-    return this.notesService.findAll({
-      skip: Number(skip),
-      take: Number(take),
-    });
-  }
+  // @Get()
+  // @ApiCreatedResponse({ type: NoteEntity, isArray: true })
+  // async findAll(
+  //   @Query('skip', new DefaultValuePipe(0)) skip: string,
+  //   @Query('take', new DefaultValuePipe(10)) take: string,
+  // ) {
+  //   return this.notesService.findAll({
+  //     skip: Number(skip),
+  //     take: Number(take),
+  //   });
+  // }
 
   @Get(':id')
   @ApiCreatedResponse({ type: NoteEntity })

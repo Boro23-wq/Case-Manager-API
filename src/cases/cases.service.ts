@@ -1,17 +1,20 @@
-// "@nestjs/cli": "^9.1.5",
-// "@nestjs/schematics": "^9.0.3",
-
 import { Injectable } from '@nestjs/common';
 import { CreateNoteDto } from 'src/notes/dto/create-note.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateCaseDto } from './dto/create-case.dto';
+import { CreateMilestoneDto } from './dto/create-milestone.dto';
+import { CreateSolutionDto } from './dto/create-solution.dto';
 import { UpdateCaseDto } from './dto/update-case.dto';
 
 @Injectable()
 export class CasesService {
   constructor(private prisma: PrismaService) {}
 
-  createNote(createNoteDto: CreateNoteDto, id: number) {
+  create(createCaseDto: CreateCaseDto) {
+    return this.prisma.patientCase.create({ data: createCaseDto });
+  }
+
+  createNote(id: number, createNoteDto: CreateNoteDto) {
     return this.prisma.note.create({
       data: {
         comment: createNoteDto.comment,
@@ -20,8 +23,24 @@ export class CasesService {
     });
   }
 
-  create(createCaseDto: CreateCaseDto) {
-    return this.prisma.patientCase.create({ data: createCaseDto });
+  createSolution(id: number, createSolutionDto: CreateSolutionDto) {
+    return this.prisma.solution.create({
+      data: {
+        subject: createSolutionDto.subject,
+        investigation: createSolutionDto.investigation,
+        resolution: createSolutionDto.resolution,
+        caseId: id,
+      },
+    });
+  }
+
+  createMilestone(id: number, createMilestoneDto: CreateMilestoneDto) {
+    return this.prisma.milestone.create({
+      data: {
+        description: createMilestoneDto.description,
+        caseId: id,
+      },
+    });
   }
 
   async findAll(params: { skip?: number; take?: number }) {
@@ -48,6 +67,36 @@ export class CasesService {
       where: {
         uniqueNote: {
           id: noteId,
+          caseId: id,
+        },
+      },
+    });
+  }
+
+  async findSolutions(id: number) {
+    return await this.prisma.solution.findMany({ where: { caseId: id } });
+  }
+
+  async findASolution(id: number, solutionId: number) {
+    return await this.prisma.solution.findUnique({
+      where: {
+        uniqueSolution: {
+          id: solutionId,
+          caseId: id,
+        },
+      },
+    });
+  }
+
+  async findMilestones(id: number) {
+    return await this.prisma.milestone.findMany({ where: { caseId: id } });
+  }
+
+  async findAMilestone(id: number, milestoneId: number) {
+    return await this.prisma.milestone.findUnique({
+      where: {
+        uniqueMilestone: {
+          id: milestoneId,
           caseId: id,
         },
       },

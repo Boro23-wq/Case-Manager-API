@@ -89,6 +89,8 @@ model Solution {
   resolution    String       @db.Text
   case          PatientCase? @relation(fields: [caseId], references: [id])
   caseId        Int
+
+  @@unique(fields: [id, caseId], name: "uniqueSolution")
 }
 
 model Milestone {
@@ -98,6 +100,8 @@ model Milestone {
   description String      @db.Text
   case        PatientCase @relation(fields: [caseId], references: [id])
   caseId      Int
+
+  @@unique(fields: [id, caseId], name: "uniqueMilestone")
 }
 
 model Activity {

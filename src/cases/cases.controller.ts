@@ -18,8 +18,12 @@ import { NoteEntity } from 'src/notes/entities/note.entity';
 import { PrismaClientExceptionFilter } from 'src/primsa-client-exception/prisma-client-exception.filter';
 import { CasesService } from './cases.service';
 import { CreateCaseDto } from './dto/create-case.dto';
+import { CreateMilestoneDto } from './dto/create-milestone.dto';
+import { CreateSolutionDto } from './dto/create-solution.dto';
 import { UpdateCaseDto } from './dto/update-case.dto';
 import { CaseEntity } from './entities/case.entity';
+import { MilestoneEntity } from './entities/milestone.entity';
+import { SolutionEntity } from './entities/solution.entity';
 
 @Controller('cases')
 @ApiTags('cases')
@@ -27,19 +31,37 @@ import { CaseEntity } from './entities/case.entity';
 export class CasesController {
   constructor(private readonly casesService: CasesService) {}
 
+  @Post()
+  @ApiCreatedResponse({ type: CaseEntity })
+  create(@Body() createCaseDto: CreateCaseDto) {
+    return this.casesService.create(createCaseDto);
+  }
+
   @Post(':id/casenotes')
   @ApiCreatedResponse({ type: NoteEntity })
   createNote(
     @Param('id', ParseIntPipe) id: number,
     @Body() createNoteDto: CreateNoteDto,
   ) {
-    return this.casesService.createNote(createNoteDto, id);
+    return this.casesService.createNote(id, createNoteDto);
   }
 
-  @Post()
-  @ApiCreatedResponse({ type: CaseEntity })
-  create(@Body() createCaseDto: CreateCaseDto) {
-    return this.casesService.create(createCaseDto);
+  @Post(':id/solutions')
+  @ApiCreatedResponse({ type: SolutionEntity })
+  createSolution(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() createSolutionDto: CreateSolutionDto,
+  ) {
+    return this.casesService.createSolution(id, createSolutionDto);
+  }
+
+  @Post(':id/milestones')
+  @ApiCreatedResponse({ type: MilestoneEntity })
+  createMilestone(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() createMilestoneDto: CreateMilestoneDto,
+  ) {
+    return this.casesService.createMilestone(id, createMilestoneDto);
   }
 
   @Get()
@@ -93,6 +115,64 @@ export class CasesController {
     }
 
     return note;
+  }
+
+  @Get(':id/solutions')
+  @ApiCreatedResponse({ type: SolutionEntity })
+  async findSolutions(@Param('id', ParseIntPipe) id: number) {
+    const solutions = await this.casesService.findSolutions(id);
+
+    if (!solutions) {
+      throw new NotFoundException(`Solutions for Case ID: ${id} not found.`);
+    }
+
+    return solutions;
+  }
+
+  @Get(':id/solutions/:solutionId')
+  @ApiCreatedResponse({ type: SolutionEntity })
+  async findASolution(
+    @Param('id', ParseIntPipe) id: number,
+    @Param('solutionId', ParseIntPipe) solutionId: number,
+  ) {
+    const solution = await this.casesService.findASolution(id, solutionId);
+
+    if (!solution) {
+      throw new NotFoundException(
+        `Solution with Case ID: ${id} and Solution ID: ${solutionId} not found.`,
+      );
+    }
+
+    return solution;
+  }
+
+  @Get(':id/milestones')
+  @ApiCreatedResponse({ type: MilestoneEntity })
+  async findMilestones(@Param('id', ParseIntPipe) id: number) {
+    const milestones = await this.casesService.findMilestones(id);
+
+    if (!milestones) {
+      throw new NotFoundException(`Milestones for Case ID: ${id} not found.`);
+    }
+
+    return milestones;
+  }
+
+  @Get(':id/milestones/:milestoneId')
+  @ApiCreatedResponse({ type: MilestoneEntity })
+  async findAMilestone(
+    @Param('id', ParseIntPipe) id: number,
+    @Param('milestoneId', ParseIntPipe) milestoneId: number,
+  ) {
+    const milestone = await this.casesService.findAMilestone(id, milestoneId);
+
+    if (!milestone) {
+      throw new NotFoundException(
+        `Milestone with Case ID: ${id} and Milestone ID: ${milestoneId} not found.`,
+      );
+    }
+
+    return milestone;
   }
 
   @Patch(':id')

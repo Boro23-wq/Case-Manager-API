@@ -11,16 +11,16 @@ export class NotesService {
   //   return this.prisma.note.create({ data: createNoteDto });
   // }
 
-  async findAll(params: { skip?: number; take?: number }) {
-    const { skip, take } = params;
+  // async findAll(params: { skip?: number; take?: number }) {
+  //   const { skip, take } = params;
 
-    if (isNaN(skip)) return this.prisma.note.findMany({ take });
+  //   if (isNaN(skip)) return this.prisma.note.findMany({ take });
 
-    return this.prisma.note.findMany({
-      skip,
-      take,
-    });
-  }
+  //   return this.prisma.note.findMany({
+  //     skip,
+  //     take,
+  //   });
+  // }
 
   async findOne(id: number) {
     return await this.prisma.note.findUnique({ where: { id } });
