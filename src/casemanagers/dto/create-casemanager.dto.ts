@@ -8,11 +8,6 @@ import {
 } from 'class-validator';
 
 export class CreateCasemanagerDto {
-  @IsString()
-  @MinLength(5)
-  @ApiProperty()
-  userName: string;
-
   @IsNotEmpty()
   @IsString()
   @ApiProperty()

@@ -12,9 +12,6 @@ export class CasemanagerEntity implements CaseManager {
   modifiedAt: Date;
 
   @ApiProperty()
-  userName: string;
-
-  @ApiProperty()
   firstName: string;
 
   @ApiProperty()
