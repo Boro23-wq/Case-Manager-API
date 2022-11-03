@@ -10,6 +10,7 @@ import {
   Query,
   ParseIntPipe,
   UseFilters,
+  DefaultValuePipe,
 } from '@nestjs/common';
 import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { CreateNoteDto } from 'src/notes/dto/create-note.dto';
@@ -43,7 +44,10 @@ export class CasesController {
 
   @Get()
   @ApiCreatedResponse({ type: CaseEntity, isArray: true })
-  async findAll(@Query('skip') skip: string, @Query('take') take: string) {
+  async findAll(
+    @Query('skip', new DefaultValuePipe(0)) skip: string,
+    @Query('take', new DefaultValuePipe(10)) take: string,
+  ) {
     return this.casesService.findAll({
       skip: Number(skip),
       take: Number(take),

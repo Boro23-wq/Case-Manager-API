@@ -20,6 +20,7 @@ model CaseManager {
   lastName   String
   phone      String
   email      String        @unique
+  profileUrl String?
   cases      PatientCase[]
 }
 

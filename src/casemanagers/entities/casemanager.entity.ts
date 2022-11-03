@@ -14,6 +14,9 @@ export class CasemanagerEntity implements CaseManager {
   @ApiProperty()
   firstName: string;
 
+  @ApiProperty({ required: false, nullable: true })
+  profileUrl: string | null;
+
   @ApiProperty()
   lastName: string;
 

@@ -33,6 +33,15 @@ export class CasemanagersService {
     });
   }
 
+  updateProfile(id: number, url: string) {
+    return this.prisma.caseManager.update({
+      where: { id },
+      data: {
+        profileUrl: url,
+      },
+    });
+  }
+
   remove(id: number) {
     return this.prisma.caseManager.delete({
       where: { id },
