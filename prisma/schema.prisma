@@ -76,6 +76,8 @@ model Note {
   comment    String      @db.Text
   case       PatientCase @relation(fields: [caseId], references: [id])
   caseId     Int
+
+  @@unique(fields: [id, caseId], name: "uniqueNote")
 }
 
 model Solution {
