@@ -14,15 +14,15 @@ import {
 } from '@nestjs/common';
 import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { PrismaClientExceptionFilter } from 'src/primsa-client-exception/prisma-client-exception.filter';
-import { UpdateSolutionDto } from './dto/update-solution.dto';
-import { SolutionEntity } from './entities/solution.entity';
-import { SolutionsService } from './solutions.service';
+import { UpdateMilestoneDto } from './dto/update-milestone.dto';
+import { MilestoneEntity } from './entities/milestone.entity';
+import { MilestonesService } from './milestones.service';
 
-@Controller('solutions')
-@ApiTags('solutions')
+@Controller('milestones')
+@ApiTags('milestones')
 @UseFilters(PrismaClientExceptionFilter)
-export class SolutionsController {
-  constructor(private readonly solutionsService: SolutionsService) {}
+export class MilestonesController {
+  constructor(private readonly milestonesService: MilestonesService) {}
 
   // @Post()
   // @ApiCreatedResponse({ type: NoteEntity })
@@ -43,29 +43,29 @@ export class SolutionsController {
   // }
 
   @Get(':id')
-  @ApiCreatedResponse({ type: SolutionEntity })
+  @ApiCreatedResponse({ type: MilestoneEntity })
   async findOne(@Param('id', ParseIntPipe) id: number) {
-    const solution = await this.solutionsService.findOne(id);
+    const milestone = await this.milestonesService.findOne(id);
 
-    if (!solution) {
-      throw new NotFoundException(`Solution with ID: ${id} not found.`);
+    if (!milestone) {
+      throw new NotFoundException(`Milestone with ID: ${id} not found.`);
     }
 
-    return solution;
+    return milestone;
   }
 
   @Patch(':id')
-  @ApiCreatedResponse({ type: SolutionEntity })
+  @ApiCreatedResponse({ type: MilestoneEntity })
   update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() updateSolutionDto: UpdateSolutionDto,
+    @Body() updateMilestoneDto: UpdateMilestoneDto,
   ) {
-    return this.solutionsService.update(id, updateSolutionDto);
+    return this.milestonesService.update(id, updateMilestoneDto);
   }
 
   @Delete(':id')
-  @ApiCreatedResponse({ type: SolutionEntity })
+  @ApiCreatedResponse({ type: MilestoneEntity })
   remove(@Param('id', ParseIntPipe) id: number) {
-    return this.solutionsService.remove(id);
+    return this.milestonesService.remove(id);
   }
 }

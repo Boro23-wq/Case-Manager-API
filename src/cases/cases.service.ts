@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { CreateMilestoneDto } from 'src/milestones/dto/create-milestone.dto';
 import { CreateNoteDto } from 'src/notes/dto/create-note.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { CreateSolutionDto } from 'src/solutions/dto/create-solution.dto';
 import { CreateCaseDto } from './dto/create-case.dto';
-import { CreateMilestoneDto } from './dto/create-milestone.dto';
-import { CreateSolutionDto } from './dto/create-solution.dto';
 import { UpdateCaseDto } from './dto/update-case.dto';
 
 @Injectable()

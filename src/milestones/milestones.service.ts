@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { UpdateSolutionDto } from './dto/update-solution.dto';
+import { UpdateMilestoneDto } from './dto/update-milestone.dto';
 
 @Injectable()
-export class SolutionsService {
+export class MilestonesService {
   constructor(private prisma: PrismaService) {}
 
   // create(createNoteDto: CreateNoteDto) {
@@ -22,18 +22,18 @@ export class SolutionsService {
   // }
 
   async findOne(id: number) {
-    return await this.prisma.solution.findUnique({ where: { id } });
+    return await this.prisma.milestone.findUnique({ where: { id } });
   }
 
-  update(id: number, updateSolutionDto: UpdateSolutionDto) {
-    return this.prisma.solution.update({
+  update(id: number, UpdateMilestoneDto: UpdateMilestoneDto) {
+    return this.prisma.milestone.update({
       where: { id },
-      data: updateSolutionDto,
+      data: UpdateMilestoneDto,
     });
   }
 
   remove(id: number) {
-    return this.prisma.solution.delete({
+    return this.prisma.milestone.delete({
       where: { id },
     });
   }

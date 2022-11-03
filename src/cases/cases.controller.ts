@@ -13,17 +13,17 @@ import {
   DefaultValuePipe,
 } from '@nestjs/common';
 import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
+import { CreateMilestoneDto } from 'src/milestones/dto/create-milestone.dto';
+import { MilestoneEntity } from 'src/milestones/entities/milestone.entity';
 import { CreateNoteDto } from 'src/notes/dto/create-note.dto';
 import { NoteEntity } from 'src/notes/entities/note.entity';
 import { PrismaClientExceptionFilter } from 'src/primsa-client-exception/prisma-client-exception.filter';
+import { CreateSolutionDto } from 'src/solutions/dto/create-solution.dto';
+import { SolutionEntity } from 'src/solutions/entities/solution.entity';
 import { CasesService } from './cases.service';
 import { CreateCaseDto } from './dto/create-case.dto';
-import { CreateMilestoneDto } from './dto/create-milestone.dto';
-import { CreateSolutionDto } from './dto/create-solution.dto';
 import { UpdateCaseDto } from './dto/update-case.dto';
 import { CaseEntity } from './entities/case.entity';
-import { MilestoneEntity } from './entities/milestone.entity';
-import { SolutionEntity } from './entities/solution.entity';
 
 @Controller('cases')
 @ApiTags('cases')
